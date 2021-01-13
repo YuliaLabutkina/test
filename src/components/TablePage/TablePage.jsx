@@ -4,17 +4,29 @@ import {
   getTable,
   getRowAmount,
   getPercent,
-  getRow,
+  getColumn,
 } from '../../redux/selectors';
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
+import onFocusShowPercentages from '../../js/onFocusShowPercentages';
+
+import {
+  Container,
+  TableRow,
+  TableCell,
+  Table,
+  AmountAndPercent,
+  TableDel,
+  Percent,
+} from './TablePage.style';
+import { Button } from '../TableCreationPage/TableCreationPage.style';
 
 const TablePage = () => {
   const dispatch = useDispatch();
   const table = useSelector(getTable);
   const rowAmount = useSelector(getRowAmount);
   const columnPercent = useSelector(getPercent);
-  const row = useSelector(getRow);
+  const column = useSelector(getColumn);
 
   const addAmount = id => {
     dispatch(tableActions.changeAmountCells(id));
@@ -25,36 +37,52 @@ const TablePage = () => {
   };
 
   const addRow = () => {
-    const newRow = createTable(row, 1);
-    console.log(newRow);
+    const newRow = createTable(1, column);
     dispatch(tableActions.addRow(newRow));
   };
 
+  const showPercent = index => {
+    const newRow = onFocusShowPercentages(index, table, rowAmount, true);
+    dispatch(tableActions.createPercentages({ newRow, index }));
+  };
+
+  const onMouseLeaveUnShowPercent = index => {
+    const newRow = onFocusShowPercentages(index, table, rowAmount, false);
+    dispatch(tableActions.createPercentages({ newRow, index }));
+  };
+
   return (
-    <div>
-      <table>
+    <Container>
+      <Table>
         <tbody>
           {table.length > 0 &&
             table.map((tableRow, index) => (
-              <tr key={index}>
-                {tableRow.map(({ id, number }) => (
-                  <td key={id} onClick={() => addAmount(id)}>
+              <TableRow key={index}>
+                {tableRow.map(({ id, number, percent, show }) => (
+                  <TableCell key={id} onClick={() => addAmount(id)}>
                     {number}
-                  </td>
+                    {show && <Percent>{percent}</Percent>}
+                  </TableCell>
                 ))}
-                <td key={rowAmount[index].id}>{rowAmount[index].sum}</td>
-                <td onClick={() => deleteRow(index)}>Del</td>
-              </tr>
+                <AmountAndPercent
+                  key={rowAmount[index].id}
+                  onMouseEnter={() => showPercent(index)}
+                  onMouseLeave={() => onMouseLeaveUnShowPercent(index)}
+                >
+                  {rowAmount[index].sum}
+                </AmountAndPercent>
+                <TableDel onClick={() => deleteRow(index)}>Del</TableDel>
+              </TableRow>
             ))}
-          <tr>
+          <TableRow>
             {columnPercent.map(({ id, percent }) => (
-              <td key={id}>{percent}</td>
+              <AmountAndPercent key={id}>{percent}</AmountAndPercent>
             ))}
-          </tr>
+          </TableRow>
         </tbody>
-      </table>
-      <button onClick={addRow}>Add Row</button>
-    </div>
+      </Table>
+      <Button onClick={addRow}>Add Row</Button>
+    </Container>
   );
 };
 

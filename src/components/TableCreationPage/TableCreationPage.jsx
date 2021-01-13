@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import createTable from '../../js/createTable';
 import tableActions from '../../redux/table/table-action';
 import tableCreationActions from '../../redux/tableCreation/tableCreation-action';
+import { Form, LabelForm, InputForm, Button } from './TableCreationPage.style';
 
 const TableCreationPage = () => {
   const dispatch = useDispatch();
@@ -42,24 +43,29 @@ const TableCreationPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <Form onSubmit={handleSubmit}>
+      <LabelForm>
         {' '}
-        Введите количество строк
-        <input type="number" onChange={handleChange} name="row" value={row} />
-      </label>
-      <label>
+        Add row
+        <InputForm
+          type="number"
+          onChange={handleChange}
+          name="row"
+          value={row}
+        />
+      </LabelForm>
+      <LabelForm>
         {' '}
-        Введите количество колонок
-        <input
+        Add column
+        <InputForm
           type="number"
           onChange={handleChange}
           name="column"
           value={column}
         />
-      </label>
-      <button type="submit">Create table</button>
-    </form>
+      </LabelForm>
+      <Button type="submit">Create table</Button>
+    </Form>
   );
 };
 

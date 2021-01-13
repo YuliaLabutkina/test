@@ -4,18 +4,18 @@ const createRandomNumber = () => {
   return Math.floor(Math.random() * (999 - 100 + 1)) + 100;
 };
 
-const createRows = row => {
-  const rowArray = [];
-  for (let i = row; i > 0; i -= 1) {
-    rowArray.push({ id: uuidv4(), number: createRandomNumber() });
+const createColumn = column => {
+  const columnArray = [];
+  for (let i = column; i > 0; i -= 1) {
+    columnArray.push({ id: uuidv4(), number: createRandomNumber() });
   }
-  return rowArray;
+  return columnArray;
 };
 
 const createTable = (row, column) => {
   const tableArray = [];
-  for (let i = column; i > 0; i -= 1) {
-    tableArray.push(createRows(row));
+  for (let i = row; i > 0; i -= 1) {
+    tableArray.push(createColumn(column));
   }
   return tableArray;
 };

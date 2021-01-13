@@ -6,7 +6,6 @@ import { isCreated } from '../../redux/selectors';
 
 const App = () => {
   const isCreatedTable = useSelector(isCreated);
-
   return <>{!isCreatedTable ? <TableCreationPage /> : <TablePage />}</>;
 };
 

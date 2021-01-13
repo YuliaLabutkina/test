@@ -16,15 +16,25 @@ const changeAmountCells = (state, { payload }) => {
   ];
 };
 
-const isDeleteRow = (state, { payload }) => {
+const deleteRow = (state, { payload }) => {
   return [...state.filter((row, index) => (index !== payload ? row : null))];
+};
+
+const createPercentages = (state, { payload: { newRow, index } }) => {
+  return state.map((row, id) => {
+    if (id === index) {
+      return row.map((el, id) => ({ ...el, ...newRow[id] }));
+    }
+    return row;
+  });
 };
 
 const table = createReducer([], {
   [tableActions.createTable]: (_, { payload }) => [...payload],
   [tableActions.changeAmountCells]: changeAmountCells,
-  [tableActions.deleteRow]: isDeleteRow,
+  [tableActions.deleteRow]: deleteRow,
   [tableActions.addRow]: (state, { payload }) => [...state, payload[0]],
+  [tableActions.createPercentages]: createPercentages,
 });
 
 const isCreated = createReducer(false, {
