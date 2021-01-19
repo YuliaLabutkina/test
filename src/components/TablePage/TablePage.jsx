@@ -5,11 +5,15 @@ import {
   getRowAmount,
   getPercent,
   getColumn,
+  getCell,
+  getComingNumbers,
 } from '../../redux/selectors';
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
 import onFocusShowPercentages from '../../js/onFocusShowPercentages';
+import showNearestAmount from '../../js/showNearestAmount';
 
+import Button from '../Button';
 import {
   Container,
   TableRow,
@@ -19,7 +23,6 @@ import {
   TableDel,
   Percent,
 } from './TablePage.style';
-import { Button } from '../TableCreationPage/TableCreationPage.style';
 
 const TablePage = () => {
   const dispatch = useDispatch();
@@ -27,6 +30,8 @@ const TablePage = () => {
   const rowAmount = useSelector(getRowAmount);
   const columnPercent = useSelector(getPercent);
   const column = useSelector(getColumn);
+  const cell = useSelector(getCell);
+  const comingNumbers = useSelector(getComingNumbers);
 
   const addAmount = id => {
     dispatch(tableActions.changeAmountCells(id));
@@ -51,6 +56,15 @@ const TablePage = () => {
     dispatch(tableActions.createPercentages({ newRow, index }));
   };
 
+  const onHoverNearestAmount = amount => {
+    const comingNumbers = showNearestAmount(table, amount, cell);
+    dispatch(tableActions.showComingNumbers(comingNumbers));
+  };
+
+  const hideNearestAmount = () => {
+    dispatch(tableActions.hideComingNumbers());
+  };
+
   return (
     <Container>
       <Table>
@@ -59,7 +73,18 @@ const TablePage = () => {
             table.map((tableRow, index) => (
               <TableRow key={index}>
                 {tableRow.map(({ id, number, percent, show }) => (
-                  <TableCell key={id} onClick={() => addAmount(id)}>
+                  <TableCell
+                    key={id}
+                    onClick={() => addAmount(id)}
+                    onMouseEnter={() => onHoverNearestAmount(number)}
+                    onMouseLeave={hideNearestAmount}
+                    color={
+                      comingNumbers.length &&
+                      comingNumbers.find(
+                        ({ indexNumber }) => indexNumber === id,
+                      )
+                    }
+                  >
                     {number}
                     {show && <Percent>{percent}</Percent>}
                   </TableCell>
@@ -81,7 +106,7 @@ const TablePage = () => {
           </TableRow>
         </tbody>
       </Table>
-      <Button onClick={addRow}>Add Row</Button>
+      <Button onClick={addRow} text="Add Row" />
     </Container>
   );
 };

@@ -14,9 +14,14 @@ const n = createReducer(null, {
   [tableCreationActions.createColumn]: (_, { payload }) => payload,
 });
 
+const x = createReducer(null, {
+  [tableCreationActions.createX]: (_, { payload }) => payload,
+});
+
 const tableCreationReducer = combineReducers({
   m,
   n,
+  x,
 });
 
 export default tableCreationReducer;

@@ -32,6 +32,7 @@ const TableCell = styled.td`
   position: relative;
   padding-top: 10px;
   padding-bottom: 10px;
+  background-color: ${props => props.color && '#cd5c5c'};
   &:hover {
     background-color: #cd5c5c;
   }

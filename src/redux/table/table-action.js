@@ -6,6 +6,8 @@ const changeAmountCells = createAction('table/ChangeAmountCells');
 const deleteRow = createAction('table/DeleteRow');
 const addRow = createAction('table/AddRow');
 const createPercentages = createAction('table/CreatePercentages');
+const showComingNumbers = createAction('table/showComingNumbers');
+const hideComingNumbers = createAction('table/hideComingNumbers');
 
 export default {
   createTable,
@@ -14,4 +16,6 @@ export default {
   deleteRow,
   addRow,
   createPercentages,
+  showComingNumbers,
+  hideComingNumbers,
 };

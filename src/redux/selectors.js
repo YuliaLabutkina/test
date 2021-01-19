@@ -5,23 +5,33 @@ import calculatePercentage from '../js/calculatePercentage';
 
 const isCreated = state => state.table.isCreated;
 const getTable = state => state.table.table;
+const getComingNumbers = state => state.table.isComingNumbers;
 const getRow = state => state.tableCreation.m;
 const getColumn = state => state.tableCreation.n;
+const getCell = state => state.tableCreation.x;
 
 const getRowAmount = createSelector([getTable], table => {
-  const sumArray = [];
-  table.map(row => {
+  return table.reduce((acc, row) => {
     const sum = row.reduce((acc, value) => acc + value.number, 0);
-    sumArray.push({ id: uuidv4(), sum });
-  });
-  return sumArray;
+    acc.push({ id: uuidv4(), sum });
+    return acc;
+  }, []);
 });
 
 const getPercent = state => {
-  const row = state.tableCreation.m;
-  const table = state.table.table;
-  const column = state.tableCreation.n;
+  const row = getRow(state);
+  const table = getTable(state);
+  const column = getColumn(state);
   return calculatePercentage(table, row, column);
 };
 
-export { isCreated, getTable, getRowAmount, getPercent, getRow, getColumn };
+export {
+  isCreated,
+  getTable,
+  getComingNumbers,
+  getRowAmount,
+  getPercent,
+  getRow,
+  getColumn,
+  getCell,
+};

@@ -41,9 +41,15 @@ const isCreated = createReducer(false, {
   [tableActions.isCreated]: () => true,
 });
 
+const isComingNumbers = createReducer([], {
+  [tableActions.showComingNumbers]: (_, { payload }) => [...payload],
+  [tableActions.hideComingNumbers]: () => [],
+});
+
 const tableReducer = combineReducers({
   table,
   isCreated,
+  isComingNumbers,
 });
 
 export default tableReducer;
