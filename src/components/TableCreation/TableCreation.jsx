@@ -5,9 +5,10 @@ import createTable from '../../js/createTable';
 import tableActions from '../../redux/table/table-action';
 import tableCreationActions from '../../redux/tableCreation/tableCreation-action';
 import Button from '../Button';
-import { Form, LabelForm, InputForm } from './TableCreationPage.style';
 
-const TableCreationPage = () => {
+import { Form, LabelForm, InputForm } from './TableCreation.style';
+
+const TableCreation = () => {
   const dispatch = useDispatch();
   const [row, setRow] = useState(0);
   const [column, setColumn] = useState(0);
@@ -86,4 +87,4 @@ const TableCreationPage = () => {
   );
 };
 
-export default TableCreationPage;
+export default TableCreation;

@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
-let percentsArray = [];
+let averageArray = [];
 let rowArray = [];
 
-const createPercent = (index, table, row) => {
+const createAverage = (index, table, row) => {
   for (let i = row; i > 0; i = i - 1) {
     const rows = table[i - 1];
     rowArray.push(rows[index].number);
@@ -15,16 +15,16 @@ const createPercent = (index, table, row) => {
   return result;
 };
 
-const calculatePercentage = (table, row, column) => {
+const calculateAverage = (table, row, column) => {
   let columns = column;
   for (let i = column; i > 0; i = i - 1) {
     columns = columns - 1;
-    const percent = createPercent(columns, table, row);
-    percentsArray.push({ id: uuidv4(), percent });
+    const average = createAverage(columns, table, row);
+    averageArray.push({ id: uuidv4(), average });
   }
-  const res = percentsArray.reverse();
-  percentsArray = [];
+  const res = averageArray.reverse();
+  averageArray = [];
   return res;
 };
 
-export default calculatePercentage;
+export default calculateAverage;

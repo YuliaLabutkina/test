@@ -1,4 +1,5 @@
-const showNearestAmount = (table, amount, cell) => {
+const calculationsNearestAmounts = (table, amount, cell) => {
+  if (!amount) return;
   const indexArray = [];
 
   const arrayAmount = table.flat();
@@ -22,4 +23,4 @@ const showNearestAmount = (table, amount, cell) => {
   return result;
 };
 
-export default showNearestAmount;
+export default calculationsNearestAmounts;

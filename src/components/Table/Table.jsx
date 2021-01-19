@@ -3,35 +3,35 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getTable,
   getRowAmount,
-  getPercent,
+  getAverage,
   getColumn,
-  getCell,
   getComingNumbers,
+  getPercent,
+  indexCellRowAmount,
 } from '../../redux/selectors';
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
-import onFocusShowPercentages from '../../js/onFocusShowPercentages';
-import showNearestAmount from '../../js/showNearestAmount';
 
 import Button from '../Button';
 import {
   Container,
   TableRow,
   TableCell,
-  Table,
+  NumberTable,
   AmountAndPercent,
   TableDel,
   Percent,
-} from './TablePage.style';
+} from './Table.style';
 
-const TablePage = () => {
+const Table = () => {
   const dispatch = useDispatch();
   const table = useSelector(getTable);
   const rowAmount = useSelector(getRowAmount);
-  const columnPercent = useSelector(getPercent);
+  const average = useSelector(getAverage);
   const column = useSelector(getColumn);
-  const cell = useSelector(getCell);
   const comingNumbers = useSelector(getComingNumbers);
+  const percent = useSelector(getPercent);
+  const indexRowAmount = useSelector(indexCellRowAmount);
 
   const addAmount = id => {
     dispatch(tableActions.changeAmountCells(id));
@@ -47,46 +47,51 @@ const TablePage = () => {
   };
 
   const showPercent = index => {
-    const newRow = onFocusShowPercentages(index, table, rowAmount, true);
-    dispatch(tableActions.createPercentages({ newRow, index }));
+    dispatch(tableActions.addIndexSelectedRow(Number(index)));
   };
 
   const onMouseLeaveUnShowPercent = index => {
-    const newRow = onFocusShowPercentages(index, table, rowAmount, false);
-    dispatch(tableActions.createPercentages({ newRow, index }));
+    dispatch(tableActions.deleteIndexSelectedRow(Number(index)));
   };
 
   const onHoverNearestAmount = amount => {
-    const comingNumbers = showNearestAmount(table, amount, cell);
-    dispatch(tableActions.showComingNumbers(comingNumbers));
+    dispatch(tableActions.showNumber(amount));
   };
 
   const hideNearestAmount = () => {
-    dispatch(tableActions.hideComingNumbers());
+    dispatch(tableActions.hideNumber());
   };
 
   return (
     <Container>
-      <Table>
+      <NumberTable>
         <tbody>
           {table.length > 0 &&
             table.map((tableRow, index) => (
               <TableRow key={index}>
-                {tableRow.map(({ id, number, percent, show }) => (
+                {tableRow.map(({ id, number }, idRow) => (
                   <TableCell
                     key={id}
                     onClick={() => addAmount(id)}
                     onMouseEnter={() => onHoverNearestAmount(number)}
                     onMouseLeave={hideNearestAmount}
                     color={
-                      comingNumbers.length &&
+                      comingNumbers?.length &&
                       comingNumbers.find(
                         ({ indexNumber }) => indexNumber === id,
                       )
                     }
                   >
                     {number}
-                    {show && <Percent>{percent}</Percent>}
+                    {indexRowAmount === index && (
+                      <Percent>
+                        {
+                          percent[index].find(
+                            (el, indexPercent) => indexPercent === idRow,
+                          ).percent
+                        }
+                      </Percent>
+                    )}
                   </TableCell>
                 ))}
                 <AmountAndPercent
@@ -100,15 +105,15 @@ const TablePage = () => {
               </TableRow>
             ))}
           <TableRow>
-            {columnPercent.map(({ id, percent }) => (
-              <AmountAndPercent key={id}>{percent}</AmountAndPercent>
+            {average.map(({ id, average }) => (
+              <AmountAndPercent key={id}>{average}</AmountAndPercent>
             ))}
           </TableRow>
         </tbody>
-      </Table>
+      </NumberTable>
       <Button onClick={addRow} text="Add Row" />
     </Container>
   );
 };
 
-export default TablePage;
+export default Table;

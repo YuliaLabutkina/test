@@ -10,7 +10,7 @@ const Container = styled.div`
   padding: 20px 10px;
 `;
 
-const Table = styled.table`
+const NumberTable = styled.table`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -54,7 +54,7 @@ export {
   Container,
   TableRow,
   TableCell,
-  Table,
+  NumberTable,
   AmountAndPercent,
   TableDel,
   Percent,

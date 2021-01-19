@@ -5,9 +5,10 @@ const isCreated = createAction('table/IsCreated');
 const changeAmountCells = createAction('table/ChangeAmountCells');
 const deleteRow = createAction('table/DeleteRow');
 const addRow = createAction('table/AddRow');
-const createPercentages = createAction('table/CreatePercentages');
-const showComingNumbers = createAction('table/showComingNumbers');
-const hideComingNumbers = createAction('table/hideComingNumbers');
+const addIndexSelectedRow = createAction('table/AddIndexSelectedRow');
+const deleteIndexSelectedRow = createAction('table/DeleteIndexSelectedRow');
+const showNumber = createAction('table/ShowNumber');
+const hideNumber = createAction('table/HideNumber');
 
 export default {
   createTable,
@@ -15,7 +16,8 @@ export default {
   changeAmountCells,
   deleteRow,
   addRow,
-  createPercentages,
-  showComingNumbers,
-  hideComingNumbers,
+  addIndexSelectedRow,
+  deleteIndexSelectedRow,
+  showNumber,
+  hideNumber,
 };

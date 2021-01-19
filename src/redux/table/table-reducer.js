@@ -20,36 +20,32 @@ const deleteRow = (state, { payload }) => {
   return [...state.filter((row, index) => (index !== payload ? row : null))];
 };
 
-const createPercentages = (state, { payload: { newRow, index } }) => {
-  return state.map((row, id) => {
-    if (id === index) {
-      return row.map((el, id) => ({ ...el, ...newRow[id] }));
-    }
-    return row;
-  });
-};
-
-const table = createReducer([], {
+const dataTable = createReducer([], {
   [tableActions.createTable]: (_, { payload }) => [...payload],
   [tableActions.changeAmountCells]: changeAmountCells,
   [tableActions.deleteRow]: deleteRow,
   [tableActions.addRow]: (state, { payload }) => [...state, payload[0]],
-  [tableActions.createPercentages]: createPercentages,
 });
 
 const isCreated = createReducer(false, {
   [tableActions.isCreated]: () => true,
 });
 
-const isComingNumbers = createReducer([], {
-  [tableActions.showComingNumbers]: (_, { payload }) => [...payload],
-  [tableActions.hideComingNumbers]: () => [],
+const number = createReducer(null, {
+  [tableActions.showNumber]: (_, { payload }) => payload,
+  [tableActions.hideNumber]: () => null,
+});
+
+const indexCellRowAmount = createReducer(null, {
+  [tableActions.addIndexSelectedRow]: (_, { payload }) => payload,
+  [tableActions.deleteIndexSelectedRow]: () => null,
 });
 
 const tableReducer = combineReducers({
-  table,
+  dataTable,
   isCreated,
-  isComingNumbers,
+  number,
+  indexCellRowAmount,
 });
 
 export default tableReducer;
