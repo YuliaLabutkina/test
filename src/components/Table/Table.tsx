@@ -9,10 +9,17 @@ import {
   getPercent,
   indexCellRowAmount,
 } from '../../redux/selectors';
+import { AppDispatch } from '../../redux/store';
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
+import {
+  IObject,
+  IObjectPercent,
+  INearestAmount,
+  IAverageArray,
+} from '../../interface/interface';
 
-import Button from '../Button';
+import Button from '../Button/Button';
 import {
   Container,
   TableRow,
@@ -24,7 +31,7 @@ import {
 } from './Table.style';
 
 const Table = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const table = useSelector(getTable);
   const rowAmount = useSelector(getRowAmount);
   const average = useSelector(getAverage);
@@ -33,32 +40,32 @@ const Table = () => {
   const percent = useSelector(getPercent);
   const indexRowAmount = useSelector(indexCellRowAmount);
 
-  const addAmount = id => {
+  const addAmount = (id: string): void => {
     dispatch(tableActions.changeAmountCells(id));
   };
 
-  const deleteRow = id => {
+  const deleteRow = (id: number): void => {
     dispatch(tableActions.deleteRow(id));
   };
 
-  const addRow = () => {
-    const newRow = createTable(1, column);
+  const addRow = (): void => {
+    const newRow: Array<IObject[]> = createTable(1, column);
     dispatch(tableActions.addRow(newRow));
   };
 
-  const showPercent = index => {
+  const showPercent = (index: number): void => {
     dispatch(tableActions.addIndexSelectedRow(Number(index)));
   };
 
-  const onMouseLeaveUnShowPercent = index => {
-    dispatch(tableActions.deleteIndexSelectedRow(Number(index)));
+  const onMouseLeaveUnShowPercent = (): void => {
+    dispatch(tableActions.deleteIndexSelectedRow());
   };
 
-  const onHoverNearestAmount = amount => {
+  const onHoverNearestAmount = (amount: number): void => {
     dispatch(tableActions.showNumber(amount));
   };
 
-  const hideNearestAmount = () => {
+  const hideNearestAmount = (): void => {
     dispatch(tableActions.hideNumber());
   };
 
@@ -67,9 +74,9 @@ const Table = () => {
       <NumberTable>
         <tbody>
           {table.length > 0 &&
-            table.map((tableRow, index) => (
+            table.map((tableRow: IObject[], index: number) => (
               <TableRow key={index}>
-                {tableRow.map(({ id, number }, idRow) => (
+                {tableRow.map(({ id, number }: IObject, idRow: number) => (
                   <TableCell
                     key={id}
                     onClick={() => addAmount(id)}
@@ -78,18 +85,26 @@ const Table = () => {
                     color={
                       comingNumbers?.length &&
                       comingNumbers.find(
-                        ({ indexNumber }) => indexNumber === id,
+                        ({ indexNumber }: INearestAmount) => indexNumber === id,
                       )
                     }
                   >
                     {number}
                     {indexRowAmount === index && (
                       <Percent>
-                        {
-                          percent[index].find(
-                            (el, indexPercent) => indexPercent === idRow,
-                          ).percent
-                        }
+                        {percent[index].reduce(
+                          (
+                            acc: string,
+                            el: IObjectPercent,
+                            indexPercent: number,
+                          ) => {
+                            if (indexPercent === idRow) {
+                              return (acc = el.percent);
+                            }
+                            return acc;
+                          },
+                          '',
+                        )}
                       </Percent>
                     )}
                   </TableCell>
@@ -97,15 +112,15 @@ const Table = () => {
                 <AmountAndPercent
                   key={rowAmount[index].id}
                   onMouseEnter={() => showPercent(index)}
-                  onMouseLeave={() => onMouseLeaveUnShowPercent(index)}
+                  onMouseLeave={onMouseLeaveUnShowPercent}
                 >
-                  {rowAmount[index].sum}
+                  {rowAmount[index].number}
                 </AmountAndPercent>
                 <TableDel onClick={() => deleteRow(index)}>Del</TableDel>
               </TableRow>
             ))}
           <TableRow>
-            {average.map(({ id, average }) => (
+            {average.map(({ id, average }: IAverageArray) => (
               <AmountAndPercent key={id}>{average}</AmountAndPercent>
             ))}
           </TableRow>
