@@ -1,14 +1,14 @@
-import { IObject, INearestAmount } from '../interface/interface';
+import { ICell, INearestAmount } from '../interface/interface';
 
 const calculationsNearestAmounts = (
-  table: Array<IObject[]>,
+  table: Array<ICell[]>,
   amount: number | null,
   cell: number,
 ): INearestAmount[] | undefined => {
   if (!amount) return;
   const indexArray: number[] = [];
 
-  const arrayAmount: IObject[] = table.flat();
+  const arrayAmount: ICell[] = table.flat();
   const difference: number[] = arrayAmount.map(({ number }) =>
     amount >= number ? amount - number : number - amount,
   );
@@ -22,7 +22,7 @@ const calculationsNearestAmounts = (
     ),
   );
   const result = arrayAmount.reduce(
-    (acc: INearestAmount[], el: IObject, id: number): INearestAmount[] => {
+    (acc: INearestAmount[], el: ICell, id: number): INearestAmount[] => {
       indexArray.forEach(
         (index: number) => index === id && acc.push({ indexNumber: el.id }),
       );

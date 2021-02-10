@@ -1,4 +1,4 @@
-import { IObject } from '../interface/interface';
+import { ICell } from '../interface/interface';
 
 interface ITableCreation {
   m: number;
@@ -7,7 +7,7 @@ interface ITableCreation {
 }
 
 interface ITable {
-  dataTable: Array<IObject[]>;
+  dataTable: Array<ICell[]>;
   indexCellRowAmount: number | null;
   isCreated: boolean;
   number: number | null;

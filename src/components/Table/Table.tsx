@@ -9,15 +9,8 @@ import {
   getPercent,
   indexCellRowAmount,
 } from '../../redux/selectors';
-import { AppDispatch } from '../../redux/store';
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
-import {
-  IObject,
-  IObjectPercent,
-  INearestAmount,
-  IAverageArray,
-} from '../../interface/interface';
 
 import Button from '../Button/Button';
 import {
@@ -31,7 +24,7 @@ import {
 } from './Table.style';
 
 const Table = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const table = useSelector(getTable);
   const rowAmount = useSelector(getRowAmount);
   const average = useSelector(getAverage);
@@ -49,7 +42,7 @@ const Table = () => {
   };
 
   const addRow = (): void => {
-    const newRow: Array<IObject[]> = createTable(1, column);
+    const newRow = createTable(1, column);
     dispatch(tableActions.addRow(newRow));
   };
 
@@ -74,9 +67,9 @@ const Table = () => {
       <NumberTable>
         <tbody>
           {table.length > 0 &&
-            table.map((tableRow: IObject[], index: number) => (
+            table.map((tableRow, index) => (
               <TableRow key={index}>
-                {tableRow.map(({ id, number }: IObject, idRow: number) => (
+                {tableRow.map(({ id, number }, idRow) => (
                   <TableCell
                     key={id}
                     onClick={() => addAmount(id)}
@@ -85,26 +78,19 @@ const Table = () => {
                     color={
                       comingNumbers?.length &&
                       comingNumbers.find(
-                        ({ indexNumber }: INearestAmount) => indexNumber === id,
+                        ({ indexNumber }) => indexNumber === id,
                       )
                     }
                   >
                     {number}
                     {indexRowAmount === index && (
                       <Percent>
-                        {percent[index].reduce(
-                          (
-                            acc: string,
-                            el: IObjectPercent,
-                            indexPercent: number,
-                          ) => {
-                            if (indexPercent === idRow) {
-                              return (acc = el.percent);
-                            }
-                            return acc;
-                          },
-                          '',
-                        )}
+                        {percent[index].reduce((acc, el, indexPercent) => {
+                          if (indexPercent === idRow) {
+                            return (acc = el.percent);
+                          }
+                          return acc;
+                        }, '')}
                       </Percent>
                     )}
                   </TableCell>
@@ -120,7 +106,7 @@ const Table = () => {
               </TableRow>
             ))}
           <TableRow>
-            {average.map(({ id, average }: IAverageArray) => (
+            {average.map(({ id, average }) => (
               <AmountAndPercent key={id}>{average}</AmountAndPercent>
             ))}
           </TableRow>

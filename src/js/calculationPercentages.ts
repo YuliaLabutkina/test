@@ -1,10 +1,10 @@
-import { IObjectPercent, IObject } from '../interface/interface';
+import { IObjectPercent, ICell } from '../interface/interface';
 
 const calculationPercentages = (
-  table: Array<IObject[]>,
-  amount: IObject[],
+  table: Array<ICell[]>,
+  amount: ICell[],
 ): Array<IObjectPercent[]> => {
-  const showPercent = (row: IObject[], idAmount: number): IObjectPercent[] => {
+  const showPercent = (row: ICell[], idAmount: number): IObjectPercent[] => {
     return row.map(el => {
       const percent: string = `${Math.round(
         (el.number / amount[idAmount].number) * 100,

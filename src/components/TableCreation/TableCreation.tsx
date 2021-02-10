@@ -5,13 +5,11 @@ import createTable from '../../js/createTable';
 import tableActions from '../../redux/table/table-action';
 import tableCreationActions from '../../redux/tableCreation/tableCreation-action';
 import Button from '../Button/Button';
-import { AppDispatch } from '../../redux/store';
-import { IObject } from '../../interface/interface';
 
 import { Form, LabelForm, InputForm } from './TableCreation.style';
 
 const TableCreation = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const [row, setRow] = useState(0);
   const [column, setColumn] = useState(0);
   const [cells, setCells] = useState(0);
@@ -35,7 +33,7 @@ const TableCreation = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const table: Array<IObject[]> = createTable(row, column);
+    const table = createTable(row, column);
 
     dispatch(tableCreationActions.createRow(row));
     dispatch(tableCreationActions.createColumn(column));

@@ -1,0 +1,30 @@
+{
+  "fileCounts": {},
+  "anys": [
+    {
+      "file": "src\\components\\Table\\Table.style.js",
+      "line": 34,
+      "character": 22,
+      "text": "props",
+      "kind": 1
+    },
+    {
+      "file": "src\\components\\Table\\Table.style.js",
+      "line": 34,
+      "character": 31,
+      "text": "props",
+      "kind": 1
+    },
+    {
+      "file": "src\\components\\Table\\Table.style.js",
+      "line": 34,
+      "character": 37,
+      "text": "color",
+      "kind": 1
+    }
+  ],
+  "percentage": 99.72850678733032,
+  "total": 1105,
+  "covered": 1102,
+  "uncovered": 3
+}

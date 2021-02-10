@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { IObject } from '../../interface/interface';
+import { ICell } from '../../interface/interface';
 import {
   CREATE_TABLE,
   CHANGE_AMOUNT_CELL,
@@ -17,14 +17,14 @@ import {
 } from './types';
 
 const changeAmountCells = (
-  state: Array<IObject[]>,
+  state: Array<ICell[]>,
   payload: string,
-): Array<IObject[]> => {
+): Array<ICell[]> => {
   return [
-    ...state.map((row: IObject[]) =>
-      row.map((el: IObject) => {
+    ...state.map(row =>
+      row.map(el => {
         if (el.id === payload) {
-          const newElNumber: number = el.number + 1;
+          const newElNumber = el.number + 1;
           return { ...el, number: newElNumber };
         }
         return el;
@@ -33,19 +33,12 @@ const changeAmountCells = (
   ];
 };
 
-const deleteRow = (
-  state: Array<IObject[]>,
-  payload: number,
-): Array<IObject[]> => {
-  return [
-    ...state.filter((row: IObject[], index: number) =>
-      index !== payload ? row : null,
-    ),
-  ];
+const deleteRow = (state: Array<ICell[]>, payload: number): Array<ICell[]> => {
+  return [...state.filter((row, index) => (index !== payload ? row : null))];
 };
 
 const dataTable = (
-  state: Array<IObject[]> = [],
+  state: Array<ICell[]> = [],
   action: ActionTypesDataTableReducer,
 ) => {
   switch (action.type) {

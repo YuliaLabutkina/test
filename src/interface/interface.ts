@@ -1,4 +1,4 @@
-export interface IObject {
+export interface ICell {
   id: string;
   number: number;
 }

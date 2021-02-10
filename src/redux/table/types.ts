@@ -1,4 +1,4 @@
-import { IObject } from '../../interface/interface';
+import { ICell } from '../../interface/interface';
 
 export const CREATE_TABLE = 'table/Create';
 export const IS_CREATE = 'table/IsCreated';
@@ -12,7 +12,7 @@ export const DELATE_INDEX_SELECTED_ROW = 'table/DeleteIndexSelectedRow';
 
 interface ICreateTable {
   type: typeof CREATE_TABLE;
-  payload: Array<IObject[]>;
+  payload: Array<ICell[]>;
 }
 
 interface IChangeAmountCells {
@@ -27,7 +27,7 @@ interface IDeleteRow {
 
 interface IAddRow {
   type: typeof ADD_ROW;
-  payload: Array<IObject[]>;
+  payload: Array<ICell[]>;
 }
 
 export interface ICreated {

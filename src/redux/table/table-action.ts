@@ -1,4 +1,4 @@
-import { IObject } from '../../interface/interface';
+import { ICell } from '../../interface/interface';
 import {
   CREATE_TABLE,
   CHANGE_AMOUNT_CELL,
@@ -15,7 +15,7 @@ import {
   ActionTypesIndexCellRowAmountReducer,
 } from './types';
 
-const createTable = (table: Array<IObject[]>): ActionTypesDataTableReducer => ({
+const createTable = (table: Array<ICell[]>): ActionTypesDataTableReducer => ({
   type: CREATE_TABLE,
   payload: table,
 });
@@ -30,7 +30,7 @@ const deleteRow = (id: number): ActionTypesDataTableReducer => ({
   payload: id,
 });
 
-const addRow = (row: Array<IObject[]>): ActionTypesDataTableReducer => ({
+const addRow = (row: Array<ICell[]>): ActionTypesDataTableReducer => ({
   type: ADD_ROW,
   payload: row,
 });

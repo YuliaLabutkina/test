@@ -7,7 +7,7 @@ import calculationsNearestAmounts from '../js/calculationsNearestAmounts';
 import { IState } from './storeInterface';
 import {
   IAverageArray,
-  IObject,
+  ICell,
   IObjectPercent,
   INearestAmount,
 } from '../interface/interface';
@@ -20,40 +20,33 @@ const getRow = (state: IState) => state.tableCreation.m;
 const getColumn = (state: IState) => state.tableCreation.n;
 const getCell = (state: IState) => state.tableCreation.x;
 
-const getAverage = (state: IState): IAverageArray[] => {
-  const row: number = getRow(state);
-  const table: Array<IObject[]> = getTable(state);
-  const column: number = getColumn(state);
-  return calculateAverage(table, row, column);
-};
-
-const getRowAmount = createSelector(
-  [getTable],
-  (dataTable: Array<IObject[]>): IObject[] => {
-    return dataTable.reduce((acc: IObject[], row: IObject[]): IObject[] => {
-      const sum = row.reduce((acc: number, value: IObject): number => {
-        return acc + value.number;
-      }, 0);
-      acc.push({ id: uuidv4(), number: sum });
-      return acc;
-    }, []);
+const getAverage = createSelector(
+  [getTable, getColumn],
+  (table, column): IAverageArray[] => {
+    return calculateAverage(table, column);
   },
 );
 
+const getRowAmount = createSelector([getTable], (dataTable): ICell[] => {
+  return dataTable.reduce((acc, row) => {
+    const sum = row.reduce((acc, value) => {
+      return acc + value.number;
+    }, 0);
+    acc.push({ id: uuidv4(), number: sum });
+    return acc;
+  }, []);
+});
+
 const getPercent = createSelector(
   [getTable, getRowAmount],
-  (table: Array<IObject[]>, amount: IObject[]): Array<IObjectPercent[]> => {
+  (table, amount): Array<IObjectPercent[]> => {
     return calculationPercentages(table, amount);
   },
 );
 
 const getComingNumbers = createSelector(
   [getTable, inCellNumber, getCell],
-  (
-    table: Array<IObject[]>,
-    number: number | null,
-    cell: number,
-  ): INearestAmount[] | undefined => {
+  (table, number, cell): INearestAmount[] | undefined => {
     return calculationsNearestAmounts(table, number, cell);
   },
 );

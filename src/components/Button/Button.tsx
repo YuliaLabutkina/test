@@ -3,7 +3,7 @@ import GlassButton from './Button.style';
 interface IProps {
   text: string;
   onClick?: () => void;
-  type?: string;
+  type?: 'submit' | 'reset' | 'button';
 }
 
 const Button = (props: IProps) => {
