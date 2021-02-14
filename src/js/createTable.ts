@@ -6,19 +6,15 @@ const createRandomNumber = (): number => {
 };
 
 const createColumn = (column: number): ICell[] => {
-  const columnArray: ICell[] = [];
-  for (let i = column; i > 0; i -= 1) {
-    columnArray.push({ id: uuidv4(), number: Number(createRandomNumber()) });
-  }
-  return columnArray;
+  return Array.from({ length: column }, () => {
+    return { id: uuidv4(), number: Number(createRandomNumber()) };
+  });
 };
 
 const createTable = (row: number, column: number): Array<ICell[]> => {
-  const tableArray: Array<ICell[]> = [];
-  for (let i = row; i > 0; i -= 1) {
-    tableArray.push(createColumn(column));
-  }
-  return tableArray;
+  return Array.from({ length: row }, () => {
+    return createColumn(column);
+  });
 };
 
 export default createTable;

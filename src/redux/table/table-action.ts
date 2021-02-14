@@ -70,15 +70,3 @@ export default {
   addIndexSelectedRow,
   deleteIndexSelectedRow,
 };
-
-// import { createAction } from '@reduxjs/toolkit';
-
-// const createTable = createAction('table/Create');
-// const isCreated = createAction('table/IsCreated');
-// const changeAmountCells = createAction('table/ChangeAmountCells');
-// const deleteRow = createAction('table/DeleteRow');
-// const addRow = createAction('table/AddRow');
-// const showNumber = createAction('table/ShowNumber');
-// const hideNumber = createAction('table/HideNumber');
-// const addIndexSelectedRow = createAction('table/AddIndexSelectedRow');
-// const deleteIndexSelectedRow = createAction('table/DeleteIndexSelectedRow');

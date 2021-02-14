@@ -5,21 +5,18 @@ const calculateAverage = (
   table: Array<ICell[]>,
   column: number,
 ): IAverageArray[] => {
-  const averageArray: IAverageArray[] = [];
-  Array.from({ length: column }, () => {
+  const averageArray = Array.from({ length: column }, (v, k) => {
     const average = table.reduce((acc, row, index, arr) => {
       if (index === arr.length - 1) {
-        const avrg = Math.round(
-          (acc + row[averageArray.length].number) / arr.length,
-        );
+        const avrg = Math.round((acc + row[k].number) / arr.length);
         return avrg;
       }
-      const val = acc + row[averageArray.length].number;
+      const val = acc + row[k].number;
 
       return val;
     }, 0);
 
-    averageArray.push({ id: uuidv4(), average });
+    return { id: uuidv4(), average };
   });
 
   return averageArray;
