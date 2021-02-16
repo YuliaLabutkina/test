@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import createTable from '../../js/createTable';
 import tableActions from '../../redux/table/table-action';
 import tableCreationActions from '../../redux/tableCreation/tableCreation-action';
-import Button from '../Button';
+import Button from '../Button/Button';
 
 import { Form, LabelForm, InputForm } from './TableCreation.style';
 
@@ -14,37 +14,37 @@ const TableCreation = () => {
   const [column, setColumn] = useState(0);
   const [cells, setCells] = useState(0);
 
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
     switch (name) {
       case 'row':
-        setRow(value);
+        setRow(Number(value));
         break;
       case 'column':
-        setColumn(value);
+        setColumn(Number(value));
         break;
       case 'cells':
-        setCells(value);
+        setCells(Number(value));
         break;
       default:
         break;
     }
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const table = createTable(row, column);
 
-    dispatch(tableCreationActions.createRow(Number(row)));
-    dispatch(tableCreationActions.createColumn(Number(column)));
-    dispatch(tableCreationActions.createX(Number(cells)));
+    dispatch(tableCreationActions.createRow(row));
+    dispatch(tableCreationActions.createColumn(column));
+    dispatch(tableCreationActions.createX(cells));
     dispatch(tableActions.createTable(table));
     dispatch(tableActions.isCreated());
 
     reset();
   };
 
-  const reset = () => {
+  const reset = (): void => {
     setRow(0);
     setColumn(0);
     setCells(0);

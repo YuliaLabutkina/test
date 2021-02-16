@@ -12,7 +12,7 @@ import {
 import tableActions from '../../redux/table/table-action';
 import createTable from '../../js/createTable';
 
-import Button from '../Button';
+import Button from '../Button/Button';
 import {
   Container,
   TableRow,
@@ -33,32 +33,32 @@ const Table = () => {
   const percent = useSelector(getPercent);
   const indexRowAmount = useSelector(indexCellRowAmount);
 
-  const addAmount = id => {
+  const addAmount = (id: string): void => {
     dispatch(tableActions.changeAmountCells(id));
   };
 
-  const deleteRow = id => {
+  const deleteRow = (id: number): void => {
     dispatch(tableActions.deleteRow(id));
   };
 
-  const addRow = () => {
+  const addRow = (): void => {
     const newRow = createTable(1, column);
     dispatch(tableActions.addRow(newRow));
   };
 
-  const showPercent = index => {
+  const showPercent = (index: number): void => {
     dispatch(tableActions.addIndexSelectedRow(Number(index)));
   };
 
-  const onMouseLeaveUnShowPercent = index => {
-    dispatch(tableActions.deleteIndexSelectedRow(Number(index)));
+  const onMouseLeaveUnShowPercent = (): void => {
+    dispatch(tableActions.deleteIndexSelectedRow());
   };
 
-  const onHoverNearestAmount = amount => {
+  const onHoverNearestAmount = (amount: number): void => {
     dispatch(tableActions.showNumber(amount));
   };
 
-  const hideNearestAmount = () => {
+  const hideNearestAmount = (): void => {
     dispatch(tableActions.hideNumber());
   };
 
@@ -85,11 +85,12 @@ const Table = () => {
                     {number}
                     {indexRowAmount === index && (
                       <Percent>
-                        {
-                          percent[index].find(
-                            (el, indexPercent) => indexPercent === idRow,
-                          ).percent
-                        }
+                        {percent[index].reduce((acc, el, indexPercent) => {
+                          if (indexPercent === idRow) {
+                            return (acc = el.percent);
+                          }
+                          return acc;
+                        }, '')}
                       </Percent>
                     )}
                   </TableCell>
@@ -97,9 +98,9 @@ const Table = () => {
                 <AmountAndPercent
                   key={rowAmount[index].id}
                   onMouseEnter={() => showPercent(index)}
-                  onMouseLeave={() => onMouseLeaveUnShowPercent(index)}
+                  onMouseLeave={onMouseLeaveUnShowPercent}
                 >
-                  {rowAmount[index].sum}
+                  {rowAmount[index].number}
                 </AmountAndPercent>
                 <TableDel onClick={() => deleteRow(index)}>Del</TableDel>
               </TableRow>

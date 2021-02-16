@@ -1,6 +1,11 @@
-const calculationsNearestAmounts = (table, amount, cell) => {
+import { ICell, INearestAmount } from '../interface/interface';
+
+const calculationsNearestAmounts = (
+  table: Array<ICell[]>,
+  amount: number | null,
+  cell: number,
+): INearestAmount[] | undefined => {
   if (!amount) return;
-  const indexArray = [];
 
   const arrayAmount = table.flat();
   const difference = arrayAmount.map(({ number }) =>
@@ -10,10 +15,11 @@ const calculationsNearestAmounts = (table, amount, cell) => {
     .sort((a, b) => a - b)
     .slice(0, cell + 1);
   const mySet = new Set(differenceSort);
-  mySet.forEach(number =>
-    difference.forEach((el, id) => number === el && indexArray.push(id)),
-  );
-  const result = arrayAmount.reduce((acc, el, id) => {
+  const indexArray = difference.reduce((acc: number[], number, id) => {
+    mySet.forEach(el => number === el && acc.push(id));
+    return acc;
+  }, []);
+  const result = arrayAmount.reduce((acc: INearestAmount[], el, id) => {
     indexArray.forEach(
       index => index === id && acc.push({ indexNumber: el.id }),
     );
